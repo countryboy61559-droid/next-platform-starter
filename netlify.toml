@@ -1,3 +1,14 @@
 [build]
   publish = ".next"
   command = "npm run build"
+
+# Enforce HTTPS at the browser level for every response (fixes "missing HSTS" findings).
+# Netlify already redirects HTTP -> HTTPS automatically; this header tells browsers to
+# only ever connect over HTTPS, preventing protocol-downgrade / man-in-the-middle attacks.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
