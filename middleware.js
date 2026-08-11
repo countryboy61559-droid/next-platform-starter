@@ -2,12 +2,10 @@ import { NextResponse } from 'next/server';
 
 export function middleware(request) {
   const response = NextResponse.next();
-  
-  // Add security headers
-  response.headers.set('X-Frame-Options', 'DENY');
-  response.headers.set('X-Content-Type-Options', 'nosniff');
-  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  
+
+  // Security headers (including HSTS to enforce HTTPS) are applied site-wide
+  // via the [[headers]] rule in netlify.toml so they also cover static assets.
+
   // Add custom header to track middleware execution
   response.headers.set('X-Middleware-Executed', 'true');
   
